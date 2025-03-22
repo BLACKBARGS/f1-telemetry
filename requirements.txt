@@ -1,0 +1,6 @@
+fastf1==3.5.3
+matplotlib
+customtkinter
+numpy
+pandas
+mplcursors
