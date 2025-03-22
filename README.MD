@@ -4,9 +4,11 @@
 [![FastF1 3.5+](https://img.shields.io/badge/FastF1-3.5%2B-orange.svg)](https://pypi.org/project/fastf1/)
 [![Matplotlib 3.3+](https://img.shields.io/badge/Matplotlib-3.3%2B-green.svg)](https://pypi.org/project/matplotlib/)
 [![CustomTkinter](https://img.shields.io/badge/CustomTkinter-Library-blue.svg)](https://github.com/TomSchimansky/CustomTkinter)
-[![Status: Experimental](https://img.shields.io/badge/Status-Experimental-orange.svg)](https://github.com/seuusuario/f1-telemetry)
+[![Status: Experimental](https://img.shields.io/badge/Status-Experimental-orange.svg)](https://github.com/BLACKBARGS/f1-telemetry)
 
 Bem-vindo ao **F1 Telemetry Viewer**, uma aplicação Python avançada para análise de dados de telemetria de Fórmula 1. Este projeto foi projetado para entusiastas e engenheiros que desejam explorar o desempenho dos pilotos e entender os detalhes técnicos das sessões de corrida. 🌍✨
+
+![Interface Preview](screenshots/preview2.png)
 
 ---
 
@@ -88,6 +90,12 @@ Aqui estão alguns exemplos de gráficos que você pode gerar com o **F1 Telemet
 - **RPM e Troca de Marchas**: ⚙️
 
 ---
+
+## Screenshots
+
+![Interface Preview](screenshots/preview1.png)
+![Interface Preview](screenshots/preview3.png)
+![Interface Preview](screenshots/preview4.png)
 
 ## 🤝 Contribuindo
 
