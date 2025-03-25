@@ -1,9 +1,13 @@
-import customtkinter as ctk
 from tkinter import messagebox
+
+import customtkinter as ctk
+
 from config import SESSOES_DISPONIVEIS, TIPOS_GRAFICOS
+
 
 class F1UI:
     """Gerenciador da interface grafica"""
+
     def __init__(self, root, data_handler, plotter):
         self.export_button = None
         self.zoom_out_button = None
@@ -61,18 +65,22 @@ class F1UI:
 
         self.sessao_label = ctk.CTkLabel(self.controls_frame, text="Sessão:")
         self.sessao_label.grid(row=0, column=4, padx=5, pady=5)
-        self.sessao_dropdown = ctk.CTkComboBox(self.controls_frame, width=150, values=SESSOES_DISPONIVEIS, state="readonly")
+        self.sessao_dropdown = ctk.CTkComboBox(self.controls_frame, width=150, values=SESSOES_DISPONIVEIS,
+                                               state="readonly")
         self.sessao_dropdown.grid(row=0, column=5, padx=5, pady=5)
         self.sessao_dropdown.set("R")
 
         # Botoes
-        self.carregar_button = ctk.CTkButton(self.controls_frame, text="Carregar Dados", command=self.carregar_dados, corner_radius=8)
+        self.carregar_button = ctk.CTkButton(self.controls_frame, text="Carregar Dados", command=self.carregar_dados,
+                                             corner_radius=8)
         self.carregar_button.grid(row=1, column=0, columnspan=2, pady=10)
 
-        self.limpar_cache_button = ctk.CTkButton(self.controls_frame, text="Limpar Cache", command=self.limpar_cache, corner_radius=8)
+        self.limpar_cache_button = ctk.CTkButton(self.controls_frame, text="Limpar Cache", command=self.limpar_cache,
+                                                 corner_radius=8)
         self.limpar_cache_button.grid(row=1, column=2, columnspan=2, pady=10)
 
-        self.comparar_button = ctk.CTkButton(self.controls_frame, text="Comparar Voltas", command=self.comparar_voltas, corner_radius=8)
+        self.comparar_button = ctk.CTkButton(self.controls_frame, text="Comparar Voltas", command=self.comparar_voltas,
+                                             corner_radius=8)
         self.comparar_button.grid(row=1, column=4, columnspan=2, pady=10)
 
         # Dropdowns para pilotos e voltas
@@ -112,13 +120,16 @@ class F1UI:
         self.zoom_frame = ctk.CTkFrame(self.root, corner_radius=10)
         self.zoom_frame.pack(pady=5, padx=20, fill="x")
 
-        self.zoom_in_button = ctk.CTkButton(self.zoom_frame, text="Zoom In", command=self.plotter.zoom_in, corner_radius=8)
+        self.zoom_in_button = ctk.CTkButton(self.zoom_frame, text="Zoom In", command=self.plotter.zoom_in,
+                                            corner_radius=8)
         self.zoom_in_button.pack(side="left", padx=5)
 
-        self.zoom_out_button = ctk.CTkButton(self.zoom_frame, text="Zoom Out", command=self.plotter.zoom_out, corner_radius=8)
+        self.zoom_out_button = ctk.CTkButton(self.zoom_frame, text="Zoom Out", command=self.plotter.zoom_out,
+                                             corner_radius=8)
         self.zoom_out_button.pack(side="left", padx=5)
 
-        self.export_button = ctk.CTkButton(self.zoom_frame, text="Exportar Gráfico", command=self.exportar_grafico, corner_radius=8)
+        self.export_button = ctk.CTkButton(self.zoom_frame, text="Exportar Gráfico", command=self.exportar_grafico,
+                                           corner_radius=8)
         self.export_button.pack(side="left", padx=5)
 
     def limpar_cache(self):
@@ -191,7 +202,8 @@ class F1UI:
             messagebox.showwarning("Aviso", "Selecione voltas válidas para ambos os pilotos.")
             return
 
-        success, msg = self.plotter.plot_comparacao(self.data_handler, piloto1, piloto2, volta1_str, volta2_str, tipo_grafico)
+        success, msg = self.plotter.plot_comparacao(self.data_handler, piloto1, piloto2, volta1_str, volta2_str,
+                                                    tipo_grafico)
         if success:
             messagebox.showinfo("Sucesso", msg)
         else:

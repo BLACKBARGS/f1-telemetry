@@ -1,11 +1,15 @@
+import os
+
 import fastf1
 import numpy as np
 import pandas as pd
-import os
+
 from config import CACHE_DIR
+
 
 class F1DataHandler:
     """Classe para gerenciar dados de telemetria da F1."""
+
     def __init__(self):
         os.makedirs(CACHE_DIR, exist_ok=True)
         fastf1.Cache.enable_cache(CACHE_DIR)
@@ -28,22 +32,22 @@ class F1DataHandler:
         session_key = (ano, gp, sessao)
         if session_key == self.last_session_key and self.session is not None:
             return True, "Dados já carregados! Usando dados existentes.", None, None
-        
+
         try:
             self.session = fastf1.get_session(ano, gp, sessao)
             self.session.load(telemetry=True, laps=True, weather=True)
             self.last_session_key = session_key
-            
+
             if self.session is None:
                 raise ValueError("Sessao nao foi carregada corretamente.")
-            
+
             pilotos = [self.session.get_driver(drv)["Abbreviation"] for drv in self.session.drivers]
             if not pilotos:
                 raise ValueError("Nenhum piloto encontrado na sessão.")
-            
+
             if self.session.laps is None or self.session.laps.empty:
                 raise ValueError("Nenhuma volta foi carregada para esta sessão.")
-            
+
             self.laps_piloto1 = None
             self.laps_piloto2 = None
             return True, "Dados carregados com sucesso!", pilotos, None
@@ -62,13 +66,13 @@ class F1DataHandler:
         """
         if not piloto or not self.session:
             return False, "Piloto ou sessão nao selecionados.", []
-        
+
         try:
             # Carrega as voltas do piloto
             laps = self.session.laps.pick_drivers(piloto)
             if laps is None or laps.empty:
                 return False, f"Nenhuma volta encontrada para {piloto}", []
-            
+
             # Armazena as voltas no atributo correto (piloto 1 ou piloto 2)
             if piloto_num == 1:
                 self.laps_piloto1 = laps
@@ -76,7 +80,7 @@ class F1DataHandler:
                 self.laps_piloto2 = laps
             else:
                 raise ValueError("piloto_num deve ser 1 ou 2")
-            
+
             voltas = []
             for _, lap in laps.iterrows():
                 lap_number = int(lap["LapNumber"])
@@ -85,10 +89,10 @@ class F1DataHandler:
                     voltas.append(f"Volta {lap_number} - Sem tempo")
                 else:
                     voltas.append(f"Volta {lap_number} - {lap_time.total_seconds():.3f}s")
-            
+
             if not voltas:
                 voltas = ["Nenhuma volta disponivel"]
-            
+
             return True, "Voltas carregadas com sucesso!", voltas
         except Exception as e:
             return False, f"Erro ao carregar voltas: {e}", ["Erro ao carregar voltas"]
@@ -123,13 +127,13 @@ class F1DataHandler:
     def get_weather_info(self):
         """Retorna informacoes climaticas da sessao."""
         if not self.session or self.session.weather_data.empty:
-            return {"temp_track": "N/A", "temp_air": "N/A", "rain": False, "wind_speed": "N/A"}
-        
+            return {"temp_track": "N/A", "temp_air": "N/A", "rain": "Não", "wind_speed": "N/A"}
+
         weather = self.session.weather_data
         return {
             "temp_track": int(weather["TrackTemp"].mean()) if "TrackTemp" in weather else "N/A",
             "temp_air": int(weather["AirTemp"].mean()) if "AirTemp" in weather else "N/A",
-            "rain": weather["Rainfall"].mean() > 0 if "Rainfall" in weather else False,
+            "rain": "Sim " if (weather["Rainfall"].mean() > 0 if "Rainfall" in weather else False) else "Não",
             "wind_speed": weather["WindSpeed"].mean() if "WindSpeed" in weather else "N/A"
         }
 
@@ -137,9 +141,10 @@ class F1DataHandler:
         """Retorna informacoes do piloto (equipe, posicao)."""
         if not self.session:
             return "Desconhecido", "N/A"
-        
+
         driver_info = self.session.get_driver(piloto)
         team = driver_info["TeamName"] if "TeamName" in driver_info else "Desconhecido"
         results = self.session.results
-        position = int(results[results["Abbreviation"] == piloto]["Position"].iloc[0]) if piloto in results["Abbreviation"].values else "N/A"
+        position = int(results[results["Abbreviation"] == piloto]["Position"].iloc[0]) if piloto in results[
+            "Abbreviation"].values else "N/A"
         return team, position

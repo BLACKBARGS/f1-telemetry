@@ -1,4 +1,5 @@
 import customtkinter as ctk
+
 from data_handler import F1DataHandler
 from plotter import F1Plotter
 from ui import F1UI
