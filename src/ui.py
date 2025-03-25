@@ -5,6 +5,31 @@ from config import SESSOES_DISPONIVEIS, TIPOS_GRAFICOS
 class F1UI:
     """Gerenciador da interface grafica"""
     def __init__(self, root, data_handler, plotter):
+        self.export_button = None
+        self.zoom_out_button = None
+        self.zoom_in_button = None
+        self.zoom_frame = None
+        self.graph_frame = None
+        self.tipo_dropdown = None
+        self.tipo_label = None
+        self.volta2_dropdown = None
+        self.volta2_label = None
+        self.piloto2_dropdown = None
+        self.piloto2_label = None
+        self.volta1_dropdown = None
+        self.volta1_label = None
+        self.piloto1_dropdown = None
+        self.piloto1_label = None
+        self.comparar_button = None
+        self.limpar_cache_button = None
+        self.carregar_button = None
+        self.sessao_dropdown = None
+        self.sessao_label = None
+        self.gp_entry = None
+        self.gp_label = None
+        self.ano_entry = None
+        self.ano_label = None
+        self.controls_frame = None
         self.root = root
         self.data_handler = data_handler
         self.plotter = plotter
@@ -13,9 +38,9 @@ class F1UI:
     def setup_ui(self):
         """configura padroes inicias da interface"""
         ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("dark-blue")
+        ctk.set_default_color_theme("blue")
         self.root.title("Telemetria F1: BLACKGSGO")
-        self.root.geometry("1600x1100")
+        self.root.geometry("1800x1200")
 
         # Frame para controles
         self.controls_frame = ctk.CTkFrame(self.root, corner_radius=10)
@@ -30,15 +55,15 @@ class F1UI:
 
         self.gp_label = ctk.CTkLabel(self.controls_frame, text="GP:")
         self.gp_label.grid(row=0, column=2, padx=5, pady=5)
-        self.gp_entry = ctk.CTkEntry(self.controls_frame, width=150, placeholder_text="Australia")
+        self.gp_entry = ctk.CTkEntry(self.controls_frame, width=150, placeholder_text="China")
         self.gp_entry.grid(row=0, column=3, padx=5, pady=5)
-        self.gp_entry.insert(0, "Australia")
+        self.gp_entry.insert(0, "China")
 
         self.sessao_label = ctk.CTkLabel(self.controls_frame, text="Sessão:")
         self.sessao_label.grid(row=0, column=4, padx=5, pady=5)
         self.sessao_dropdown = ctk.CTkComboBox(self.controls_frame, width=150, values=SESSOES_DISPONIVEIS, state="readonly")
         self.sessao_dropdown.grid(row=0, column=5, padx=5, pady=5)
-        self.sessao_dropdown.set("Q")
+        self.sessao_dropdown.set("R")
 
         # Botoes
         self.carregar_button = ctk.CTkButton(self.controls_frame, text="Carregar Dados", command=self.carregar_dados, corner_radius=8)
@@ -138,7 +163,7 @@ class F1UI:
             self.volta1_dropdown.configure(values=[""])
             self.volta1_dropdown.set("")
 
-    def atualizar_voltas_piloto2(self, *args):
+    def atualizar_voltas_piloto2(self, *args: object) -> None:
         """Atualiza as voltas do piloto 2."""
         piloto = self.piloto2_dropdown.get()
         success, msg, voltas = self.data_handler.get_voltas_piloto(piloto, piloto_num=2)

@@ -3,7 +3,7 @@ import pandas as pd
 import customtkinter as ctk
 import mplcursors
 import matplotlib.pyplot as plt
-from tkinter import messagebox, filedialog
+from tkinter import filedialog
 from config import TEAM_COLORS, TIRE_COLORS
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

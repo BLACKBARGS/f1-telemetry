@@ -65,7 +65,7 @@ class F1DataHandler:
         
         try:
             # Carrega as voltas do piloto
-            laps = self.session.laps.pick_driver(piloto)
+            laps = self.session.laps.pick_drivers(piloto)
             if laps is None or laps.empty:
                 return False, f"Nenhuma volta encontrada para {piloto}", []
             
